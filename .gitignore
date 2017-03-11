@@ -1,4 +1,5 @@
 venv/
 startup.sh
 *.pyc
-.vscode 
+.vscode/
+
