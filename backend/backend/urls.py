@@ -15,14 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.shortcuts import render
-
-
-def hello(request):
-    return render(request, 'index.html')
-
+from . import views
 
 urlpatterns = [
-    url(r'^$', hello, name='home_page'),
+    url(r'^$', views.hello, name='home_page'),
     url(r'^admin/', admin.site.urls),
 ]
