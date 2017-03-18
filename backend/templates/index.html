@@ -12,8 +12,12 @@
 
 <body>
     <div id="root"></div>
+    <script>
+        var all_todos = JSON.parse('{{all_todos|escapejs}}'); 
+        console.log(all_todos)
+    </script>
     <script type="text/javascript" src="{% static 'js/main.b2829e86.js' %}"></script>
-
+    
 </body>
 
 </html>
