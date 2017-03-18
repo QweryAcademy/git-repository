@@ -13,7 +13,7 @@ class Todo(models.Model):
 class TodoForm(forms.ModelForm):
     class Meta:
         model = Todo
-        fields = ['content']
+        fields = ['content','completed']
 
 # class TodoForm2(forms.Form):
 #     content = forms.CharField()
