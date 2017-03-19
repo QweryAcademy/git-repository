@@ -2,4 +2,4 @@ venv/
 startup.sh
 *.pyc
 .vscode/
-
+*node_modules/
