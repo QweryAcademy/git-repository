@@ -30,3 +30,15 @@ def update_logic(id):
         todo.save()
         return serialize_model(todo)
     return False
+
+
+
+options = {
+    'ADD': add_logic,
+    'EDIT': update_logic,
+    'DELETE': delete_logic,
+}
+"""[
+            {'type':'ADD', 'data':{'content': 'hello'}},
+            {'type': 'EDIT', 'data': 23},
+            {'type': 'DELETE', 'data': 23}        ]"""

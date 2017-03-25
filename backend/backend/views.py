@@ -54,18 +54,8 @@ def update_todo(request, pk):
 
 @valid_verbs(['POST'])
 def bulk_update(request):
-    options = {
-        'ADD': services.add_logic,
-        'EDIT': services.update_logic,
-        'DELETE': services.delete_logic,
-    }
-    """[
-            {'type':'ADD', 'data':{'content': 'hello'}},
-            {'type': 'EDIT', 'data': 23},
-            {'type': 'DELETE', 'data': 23}
-        ]"""
     data = json.loads(request.body.decode('utf-8'))
     for item in data:
-        services.implement(item)
-        options[item['type']](item['data'])
-    return JsonResponse({'status': "Batch Succedded"})
+#        services.implement(item)
+        services.options[item['type']](item['data'])
+    return JsonResponse({'status': "Batch Succeeded"})
