@@ -1,10 +1,12 @@
 from django.db import models
 from django import forms
-
+# from django.contrib.auth.models import User
+from django.conf import settings
 # Create your models here.
 class Todo(models.Model):
     content = models.TextField()
     completed = models.BooleanField(default=False)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, related_name='all_todos')
 
     def __repr__(self):
         return "<Todo: {}>".format(self.content)

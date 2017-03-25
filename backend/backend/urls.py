@@ -21,10 +21,15 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.hello, name='home_page'),
+    url(r'^login/$', views.login, name='login'),
+    url(r'^signup/$', views.signup, name='register'),
+    url(r'^logout/$', views.logout, name='logout'),
     url(r'^add_todo/$', csrf_exempt(views.add_todo), name='add_todo'),
-    url(r'^delete_todo/(?P<pk>[0-9]+)/$', csrf_exempt(views.delete_todo), name='delete_todo'),
+    url(r'^delete_todo/(?P<pk>[0-9]+)/$',
+        csrf_exempt(views.delete_todo), name='delete_todo'),
     url(r'^bulk_update_todos/$', csrf_exempt(views.bulk_update), name='bulk_update'),
-    url(r'^update_todo/(?P<pk>[0-9]+)/$', csrf_exempt(views.update_todo), name='update_todo'),
+    url(r'^update_todo/(?P<pk>[0-9]+)/$',
+        csrf_exempt(views.update_todo), name='update_todo'),
     url(r'^admin/', admin.site.urls),
 ]
 if settings.DEBUG:

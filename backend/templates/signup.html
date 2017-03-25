@@ -1,0 +1,8 @@
+<form action="{% url 'register' %}" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button>Sign up</button>
+</form>
+{% if form.errors %}
+{{form.errors}}
+{% endif %}

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend.todos.apps.TodosConfig',
     'debug_toolbar',
+    'django_extensions',
 
 ]
 
