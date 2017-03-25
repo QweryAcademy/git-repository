@@ -2,6 +2,7 @@ from test_plus import TestCase
 import json
 # Create your tests here.
 from backend.todos.models import Todo
+from django.contrib.auth.models import User
 
 
 class TodoViewTestCase(TestCase):
@@ -135,3 +136,49 @@ class TodoViewTestCase(TestCase):
             {'type': 'DELETE', 'data': sample_todo2.pk}
         ]), content_type="application/json")
         self.response_405(response)
+
+
+class IndexPageTestCase(TestCase):
+    def setUp(self):
+        Todo.objects.create(content="1")
+        Todo.objects.create(content="2")
+        self.user = User.objects.create(
+            username="biola", email='b@example.com')
+        Todo.objects.create(content="3", owner=self.user)
+
+    def test_when_not_logged_in_displays_two_todos(self):
+        url = self.reverse('home_page')
+        response = self.client.get(url)
+        context = response.context
+        todos_with_no_user = Todo.objects.filter(
+            owner=None).values('content', 'id', 'completed')
+        self.assertIn('all_todos', context)
+        all_todos = json.loads(context['all_todos'])
+        self.assertEqual(len(all_todos), todos_with_no_user.count())
+        self.assertEqual(all_todos[0], todos_with_no_user[0])
+        # no_user =
+        # self.assertEqual(
+
+    def test_when_user_is_authenticated(self):
+        self.user.set_password('password')
+        self.user.save()
+        url = self.reverse('login')
+        response = self.client.post(url,
+                                    {"username": self.user.username,
+                                     "password": 'password'})
+        new_url = response.url
+        response = self.client.get(new_url)
+        context = response.context
+        todos_with_no_user = Todo.objects.filter(
+            owner=None).values('content', 'id', 'completed')
+        self.assertIn('all_todos', context)
+        all_todos = json.loads(context['all_todos'])
+        self.assertEqual(len(all_todos), 3)
+
+    def test_when_user_signs_up_with_existing_user(self):
+        url = self.reverse('register')
+        response = self.client.post(url, {'username': self.user.username,
+                                          'password': 'password'})
+        self.response_200(response)
+        form = response.context['form']
+        self.assertEqual(['This user already exists'], form.errors['__all__'])

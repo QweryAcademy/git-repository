@@ -1,4 +1,8 @@
 from .models import Todo, TodoForm
+from ..forms import LoginForm, SignupForm
+
+from django.shortcuts import render
+from django.db.models import F, Q
 
 
 def serialize_model(instance):
@@ -48,3 +52,20 @@ def bulk_update(data):
     for item in data:
         options[item['type']](item['data'])
 
+
+def authentication_logic(auth_type, request, callback):
+    options = {
+        'login': LoginForm,
+        'signup': SignupForm
+    }
+    form = options[auth_type]()
+    if request.POST:
+        form = options[auth_type](request.POST)
+        if form.is_valid():
+            form.save(request)
+            return callback()
+    return render(request, "{}.html".format(auth_type), {'form': form})
+
+
+def get_todos(user):
+    return Todo.objects.my_todos(user)
