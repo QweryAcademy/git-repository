@@ -1,10 +1,12 @@
 from .models import Todo, TodoForm
 
+
 def serialize_model(instance):
     response = {}
     for field in ['id', 'content', 'completed']:
         response[field] = getattr(instance, field)
     return response
+
 
 def add_logic(data):
     todo_form = TodoForm(data)
@@ -32,13 +34,17 @@ def update_logic(id):
     return False
 
 
-
-options = {
-    'ADD': add_logic,
-    'EDIT': update_logic,
-    'DELETE': delete_logic,
-}
-"""[
+def bulk_update(data):
+    """[
             {'type':'ADD', 'data':{'content': 'hello'}},
             {'type': 'EDIT', 'data': 23},
             {'type': 'DELETE', 'data': 23}        ]"""
+    options = {
+        'ADD': add_logic,
+        'EDIT': update_logic,
+        'DELETE': delete_logic,
+    }
+
+    for item in data:
+        options[item['type']](item['data'])
+
