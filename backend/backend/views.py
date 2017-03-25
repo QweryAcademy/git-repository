@@ -66,5 +66,6 @@ def bulk_update(request):
         ]"""
     data = json.loads(request.body.decode('utf-8'))
     for item in data:
+        services.implement(item)
         options[item['type']](item['data'])
     return JsonResponse({'status': "Batch Succedded"})
