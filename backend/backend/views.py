@@ -55,7 +55,5 @@ def update_todo(request, pk):
 @valid_verbs(['POST'])
 def bulk_update(request):
     data = json.loads(request.body.decode('utf-8'))
-    for item in data:
-#        services.implement(item)
-        services.options[item['type']](item['data'])
+    services.bulk_update(data)
     return JsonResponse({'status': "Batch Succeeded"})
